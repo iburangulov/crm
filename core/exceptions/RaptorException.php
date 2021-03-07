@@ -4,7 +4,7 @@ namespace App\exceptions;
 
 use Exception;
 
-class RaptorException extends Exception
+final class RaptorException extends Exception
 {
 
 }

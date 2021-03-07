@@ -21,4 +21,10 @@ interface ComponentsContract
      * Возвращает компонент
      */
     public static function getComponent();
+
+    /**
+     * @return mixed
+     * Возвращает имя компонента
+     */
+    public static function getComponentName();
 }

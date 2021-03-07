@@ -2,10 +2,9 @@
 
 namespace App\components;
 
-use App\contracts\ComponentsContract;
 use App\exceptions\RaptorException;
 
-final class LoggerComponent extends BaseComponent implements ComponentsContract
+final class LoggerComponent extends BaseComponent
 {
     const COMPONENT_NAME = 'Logger';
 
@@ -24,7 +23,7 @@ final class LoggerComponent extends BaseComponent implements ComponentsContract
      */
     private $logfile = null;
 
-    public function init()
+    public function init(): void
     {
         if ($_ENV['LOGGING'] === 'true') {
             $this->logging = true;
@@ -32,7 +31,7 @@ final class LoggerComponent extends BaseComponent implements ComponentsContract
         }
     }
 
-    public function test()
+    public function test(): void
     {
         if ($this->logging && !is_writable(ROOT_DIR)) throw new RaptorException(ComponentsManager::getErrorMessage('NOT_WRITABLE'));
     }

@@ -2,12 +2,11 @@
 
 namespace App\components;
 
-use App\contracts\ComponentsContract;
 use App\exceptions\RaptorException;
 use PDO;
 use PDOException;
 
-final class DBComponent extends BaseComponent implements ComponentsContract
+final class DBComponent extends BaseComponent
 {
     const COMPONENT_NAME = 'DB';
 
@@ -22,7 +21,7 @@ final class DBComponent extends BaseComponent implements ComponentsContract
      */
     private $db;
 
-    public function init()
+    public function init(): void
     {
         parent::init();
         $this->config['driver'] = $_ENV['DB_DRIVER'];
@@ -66,7 +65,7 @@ final class DBComponent extends BaseComponent implements ComponentsContract
         }
     }
 
-    public function test()
+    public function test(): void
     {
         parent::test();
         if ($this->test_status !== false)
