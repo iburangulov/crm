@@ -2,20 +2,23 @@
 
 namespace App;
 
-use App\components\Bus;
+use App\components\ComponentsManager;
+use App\components\DBComponent;
 use App\contracts\ApplicationContract;
 
 class Application implements ApplicationContract
 {
-    /**
-     * @var array
-     * Компоненты приложения
-     */
-    private $components;
+    public function __construct()
+    {
+        ini_set('error_reporting', E_ALL);
+        ini_set('display_errors', 1);
+        ini_set('display_startup_errors', 1);
+    }
 
     public function init()
     {
-        $this->components['Bus'] = new Bus();
+        ComponentsManager::init();
+        ComponentsManager::test();
     }
 
     public function start()
