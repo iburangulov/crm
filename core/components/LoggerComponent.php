@@ -8,9 +8,15 @@ final class LoggerComponent extends BaseComponent implements ComponentsContract
 {
     const COMPONENT_NAME = 'Logger';
 
+    /**
+     * @var bool
+     * Логгироание
+     */
+    private $logging;
+
     public function init()
     {
-        // TODO: Implement init() method.
+
     }
 
     public function test()

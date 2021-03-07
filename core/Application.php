@@ -3,11 +3,24 @@
 namespace App;
 
 use App\components\ComponentsManager;
-use App\components\DBComponent;
 use App\contracts\ApplicationContract;
+use App\exceptions\ErrorHandler;
+use App\exceptions\ExceptionHandler;
+use Dotenv\Dotenv;
 
 class Application implements ApplicationContract
 {
+    private $env_required = [
+        'LANG',
+        'LOGGING',
+        'DB_DRIVER',
+        'DB_HOST',
+        'DB_PORT',
+        'DB_NAME',
+        'DB_USER',
+        'DB_PASS'
+    ];
+
     public function __construct()
     {
         ini_set('error_reporting', E_ALL);
@@ -17,6 +30,16 @@ class Application implements ApplicationContract
 
     public function init()
     {
+        $dotenv = Dotenv::createImmutable(ROOT_DIR);
+        $dotenv->load();
+
+        array_map(function ($env) use ($dotenv) {
+            $dotenv->required($env);
+        }, $this->env_required);
+
+        ExceptionHandler::init();
+        ErrorHandler::init();
+
         ComponentsManager::init();
         ComponentsManager::test();
     }
