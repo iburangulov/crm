@@ -77,7 +77,6 @@ final class DBComponent extends BaseComponent
      */
     public static function query(string $query, int $returning = 0)
     {
-        var_dump($query);
         $result = self::$pdo->query($query);
         if (!$result) return [];
         switch ($returning) {
@@ -102,6 +101,29 @@ final class DBComponent extends BaseComponent
     {
         $sql = 'SELECT * FROM ' . $table . 'WHERE id = ' . $id . ';';
         return self::query($sql, self::RETURNING_ONE);
+    }
+
+    public static function select(string $table, int $id)
+    {
+        $result = '';
+        switch (gettype($id)) {
+            case 'array':
+                $query = '';
+                foreach ($id as $i) {
+                    $query .= $i . ', ';
+                }
+                $query = trim($query, ', ');
+                $query = 'SELECT * FROM ' . $table . 'WHERE id IN (' . $query . ');';
+                $result = self::query($query, self::RETURNING_ASSOC);
+                break;
+            case 'integer':
+            case 'string':
+                $query = 'SELECT * FROM ' . $table . ' WHERE id = ' . (int)$id . ';';
+                $result = self::query($query, self::RETURNING_ONE);
+                break;
+        }
+
+        return $result;
     }
 
     /**
