@@ -22,6 +22,7 @@ final class ErrorHandler
         echo '<hr>Message: ' . $errstr;
         echo '<hr>File: ' . $errfile;
         echo '<hr>Line: ' . $errline . '<hr></tt>';
+        echo xdebug_get_formatted_function_stack();
         return true;
     }
 }

@@ -37,6 +37,7 @@ final class ComponentsManager implements ComponentsManagerContract
         self::$components['Protector'] = new ProtectorComponent();
         self::$components['User'] = new UserComponent();
         self::$components['WM'] = new WMComponent();
+        self::$components['Router'] = new RouterComponent();
 
         array_map(function ($component) {
             $component->init();

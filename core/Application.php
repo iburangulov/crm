@@ -3,7 +3,9 @@
 namespace App;
 
 use App\components\ComponentsManager;
+use App\components\DBComponent;
 use App\components\LoggerComponent;
+use App\components\RouterComponent;
 use App\contracts\ApplicationContract;
 use App\exceptions\ErrorHandler;
 use App\exceptions\ExceptionHandler;
@@ -44,6 +46,7 @@ class Application implements ApplicationContract
         ComponentsManager::init();
         ComponentsManager::test();
 
+        RouterComponent::getController()->init();
 
     }
 

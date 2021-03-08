@@ -22,5 +22,6 @@ final class ExceptionHandler
         echo 'Message: ' . $exception->getMessage() . '<hr>';
         echo 'File: ' . $exception->getFile() . '<hr>';
         echo 'Line: ' . $exception->getLine() . '<hr></tt></span></body></html>';
+        echo xdebug_get_formatted_function_stack();
     }
 }
