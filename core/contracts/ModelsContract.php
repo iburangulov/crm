@@ -6,7 +6,7 @@ interface ModelsContract
 {
     /**
      * @param int $id
-     * @return mixed
+     * @return self
      * Вернуть модель по ID
      */
     public static function find(int $id);
@@ -20,34 +20,21 @@ interface ModelsContract
 
     /**
      * @param array $params
-     * @return mixed
+     * @return self
      * Создать пустую модель
      */
     public static function create(array $params = []);
 
     /**
-     * @return mixed
+     * @return self
      * Записать модель в БД
      */
     public function save();
 
     /**
      * @param array $params
-     * @return mixed
+     * @return self
      * Изменить поля в обьекте
      */
     public function update(array $params);
-
-    /**
-     * @return mixed
-     * Записать изменения в БД
-     */
-    public function upgrade();
-
-    /**
-     * @param array $data
-     * @return mixed
-     * Заполняет данные модели из массива
-     */
-    public function full(array $data);
 }

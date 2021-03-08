@@ -9,11 +9,42 @@ abstract class BaseModel implements ModelsContract
 {
     protected const TABLE = '';
 
+    /**
+     * @var int
+     * ID записи
+     */
+    protected $id;
+
+    /**
+     * @var array
+     * Поле в БД => Значение
+     */
     protected $fields = [];
 
-    public static function find(int $id)
+    /**
+     * @var bool
+     */
+    protected $saved = false;
+
+    public function __construct()
     {
-        return DBComponent::select(static::TABLE, $id);
+        $temp = [];
+        foreach ($this->fields as $field => $value)
+        {
+            $temp[$value] = null;
+        }
+        $this->fields = $temp;
+    }
+
+    public static function find(int $id): ModelsContract
+    {
+        $data = DBComponent::select(static::TABLE, $id);
+        if (!$data) return new static();
+        $m = new static();
+        $m->update($data);
+        $m->id = $data['id'];
+        $m->saved = true;
+        return $m;
     }
 
     public static function delete(int $id)
@@ -28,21 +59,31 @@ abstract class BaseModel implements ModelsContract
 
     public function save()
     {
-        // TODO: Implement save() method.
+        if (key_exists('updated', $this->fields)) $this->fields['updated'] = DBComponent::getTimestamp();
+        if (key_exists('created', $this->fields) && !$this->saved) $this->fields['created'] = DBComponent::getTimestamp();
+
+        $fiedls = [];
+
+        foreach ($this->fields as $field => $value)
+        {
+            if ($value) $fiedls[$field] = $value;
+        }
+
+        if ($this->saved) DBComponent::update(static::TABLE, $this->id, $fiedls);
+        else {
+            DBComponent::insert(static::TABLE, $fiedls);
+            $this->id = DBComponent::getLastId(static::TABLE);
+        }
+        $this->saved = true;
+        return $this;
     }
 
     public function update(array $params)
     {
-        // TODO: Implement update() method.
-    }
-
-    public function upgrade()
-    {
-        // TODO: Implement upgrade() method.
-    }
-
-    public function full(array $data)
-    {
-        // TODO: Implement full() method.
+        foreach ($params as $param_name => $param_value)
+        {
+            if (key_exists($param_name, $this->fields)) $this->fields[$param_name] = $param_value;
+        }
+        return $this;
     }
 }

@@ -6,6 +6,8 @@ final class RouterComponent extends BaseComponent
 {
     const COMPONENT_NAME = 'Router';
 
+    private $session;
+
     /**
      * @var object
      * Текущий контроллер
@@ -14,6 +16,10 @@ final class RouterComponent extends BaseComponent
 
     public function init(): void
     {
+        session_start([
+            'cookie_lifetime' => 86400,
+        ]);
+
         parent::init();
         $controller_name = ucfirst(strtolower(trim($_SERVER['REQUEST_URI'], '/')));
         $controller = '\\App\\controllers\\' . $controller_name;

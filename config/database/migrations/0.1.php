@@ -25,7 +25,7 @@ return [
     tariff INT,
     created DATETIME,
     updated DATETIME,
-    deleted BOOLEAN DEFAULT FALSE 
+    deleted BOOLEAN DEFAULT false 
 );",
     "CREATE TABLE tariff (
     id INT AUTO_INCREMENT PRIMARY KEY,

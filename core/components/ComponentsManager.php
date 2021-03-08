@@ -53,7 +53,7 @@ final class ComponentsManager implements ComponentsManagerContract
     {
         if (isset(self::$error_messages[$error])) return self::$error_messages[$error];
         elseif (isset(self::$default_error_messages[$error])) return self::$default_error_messages[$error];
-        throw new RaptorException('Ошибка не найдена в конфигурации.');
+        throw new RaptorException('Ошибка не найдена в конфигурации: ' . $error);
     }
 
     public static function test()

@@ -38,11 +38,11 @@ final class LoggerComponent extends BaseComponent
 
     /**
      * @param string $message
-     * @param array $context
+     * @param array|string $context
      * @throws RaptorException
      * Запись в лог
      */
-    public static function log(string $message, array $context = []): void
+    public static function log(string $message, $context = []): void
     {
         $logger = ComponentsManager::getComponent(self::COMPONENT_NAME);
 
@@ -51,11 +51,11 @@ final class LoggerComponent extends BaseComponent
             if (!file_exists(ROOT_DIR . 'logs/')) mkdir(ROOT_DIR . 'logs/');
 
             $messageFormated = $logger->getTimeStamp() . ': ' . ComponentsManager::getErrorMessage($message) . PHP_EOL;
-            if ($context) {
+            if (is_array($context)) {
                 foreach ($context as $errName => $errMsg) {
                     $messageFormated .= "\t" . $errName . ': ' . $errMsg . PHP_EOL;
                 }
-            }
+            } elseif (is_string($context)) $messageFormated .= "\t" . $context . PHP_EOL;
             file_put_contents($logger->logfile, $messageFormated, FILE_APPEND);
         }
     }

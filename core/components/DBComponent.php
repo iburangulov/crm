@@ -94,6 +94,17 @@ final class DBComponent extends BaseComponent
 
     /**
      * @param string $table
+     * @return int
+     * Вернет поледний ID
+     */
+    public static function getLastId(string $table): int
+    {
+        $r =  self::query('SELECT MAX(id) FROM ' . $table . ';', self::RETURNING_ONE);
+        return current($r);
+    }
+
+    /**
+     * @param string $table
      * @param int $id
      * @return array|bool|mixed
      */
@@ -119,7 +130,7 @@ final class DBComponent extends BaseComponent
             case 'integer':
             case 'string':
                 $query = 'SELECT * FROM ' . $table . ' WHERE id = ' . (int)$id . ';';
-                $result = self::query($query, self::RETURNING_ONE);
+                $result = current(self::query($query, self::RETURNING_ASSOC));
                 break;
         }
 
@@ -217,7 +228,7 @@ final class DBComponent extends BaseComponent
         }
     }
 
-    private static function getTimestamp(): string
+    public static function getTimestamp(): string
     {
         return date("Y-m-d H:i:s");
     }

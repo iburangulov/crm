@@ -6,8 +6,7 @@ final class Accounts extends BaseModel
 {
     protected const TABLE = 'accounts';
 
-    protected const FIELDS = [
-        'id',
+    protected $fields = [
         'first_name',
         'second_name',
         'role',
@@ -16,4 +15,5 @@ final class Accounts extends BaseModel
         'updated',
         'deleted'
     ];
+
 }
